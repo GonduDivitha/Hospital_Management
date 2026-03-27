@@ -1,5 +1,3 @@
-
-
 class Patient:
     def __init__(self, patient_id, name, age, disease):
         self.patient_id = patient_id
@@ -15,15 +13,10 @@ class Hospital:
     def __init__(self):
         self.patients = []
 
-    def add_patient(self):
-        patient_id = input("Enter Patient ID: ")
-        name = input("Enter Name: ")
-        age = input("Enter Age: ")
-        disease = input("Enter Disease: ")
-
+    # Modified: takes parameters instead of input()
+    def add_patient(self, patient_id, name, age, disease):
         patient = Patient(patient_id, name, age, disease)
         self.patients.append(patient)
-
         print("✅ Patient added successfully!\n")
 
     def view_patients(self):
@@ -35,55 +28,45 @@ class Hospital:
                 patient.display()
             print()
 
-    def search_patient(self):
-        pid = input("Enter Patient ID to search: ")
-        found = False
-
+    # Modified: takes parameter
+    def search_patient(self, pid):
         for patient in self.patients:
             if patient.patient_id == pid:
                 print("\nPatient Found:")
                 patient.display()
-                found = True
-                break
+                return
+        print("❌ Patient not found.\n")
 
-        if not found:
-            print("❌ Patient not found.\n")
-
-    def delete_patient(self):
-        pid = input("Enter Patient ID to delete: ")
-
+    # Modified: takes parameter
+    def delete_patient(self, pid):
         for patient in self.patients:
             if patient.patient_id == pid:
                 self.patients.remove(patient)
                 print("🗑️ Patient deleted successfully!\n")
                 return
-
         print("❌ Patient not found.\n")
 
 
-# Main Program
-hospital = Hospital()
+# Main Program (AUTO MODE - no input)
+if __name__ == "__main__":
+    hospital = Hospital()
 
-while True:
-    print("===== Hospital Management System =====")
-    print("1. Add Patient")
-    print("2. View Patients")
-    print("3. Search Patient")
-    print("4. Delete Patient")
-    print("5. Exit")
+    print("===== Hospital Management System (Auto Mode) =====")
 
-    choice = input("Enter your choice: ")
+    # Add patients automatically
+    hospital.add_patient("101", "John", "25", "Fever")
+    hospital.add_patient("102", "Alice", "30", "Cold")
 
-    if choice == '1':
-        hospital.add_patient()
-    elif choice == '2':
-        hospital.view_patients()
-    elif choice == '3':
-        hospital.search_patient()
-    elif choice == '4':
-        hospital.delete_patient()
-    elif choice == '5':
-        print("Exiting program...")
-        break
-    else:
-        print("Invalid choice. Try again.\n")
+    # View patients
+    hospital.view_patients()
+
+    # Search patient
+    hospital.search_patient("101")
+
+    # Delete patient
+    hospital.delete_patient("102")
+
+    # Final list
+    hospital.view_patients()
+
+    print("✅ Program executed successfully (No input required)")
