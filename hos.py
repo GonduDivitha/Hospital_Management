@@ -1,7 +1,4 @@
-import os
 
-api_key = os.getenv("API_KEY")
-print(api_key)
 
 class Patient:
     def __init__(self, patient_id, name, age, disease):
